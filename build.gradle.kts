@@ -69,7 +69,7 @@ kotlin {
 pluginPublishing {
     // The address your repository is hosted it
     // if you use Git LFS and GitHub Pages use https://github.com/owner/repo/raw/branch
-    repositoryUrl.set("https://github.com/niggelgame/kreidebot/raw/release")
+    repositoryUrl.set("https://github.com/niggelgame/kreidebot/raw/plugin-repo")
     // The directory the generated repository should be in
     targetDirectory.set(rootProject.file("ci-repo").toPath())
     // The URL of the project
