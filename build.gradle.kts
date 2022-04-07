@@ -12,7 +12,7 @@ plugins {
 val experimentalAnnotations =
     listOf("kotlin.RequiresOptIn", "kotlin.time.ExperimentalTime", "kotlin.contracts.ExperimentalContracts")
 
-version = "1.0.2"
+version = "1.0.3"
 
 repositories {
     mavenCentral()
