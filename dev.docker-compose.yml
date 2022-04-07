@@ -1,0 +1,14 @@
+version: "2.0"
+
+services:
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: bot
+      MONGO_INITDB_ROOT_PASSWORD: bot
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+volumes:
+  mongo-data: { }
