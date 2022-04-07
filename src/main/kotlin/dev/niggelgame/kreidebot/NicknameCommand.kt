@@ -61,7 +61,7 @@ suspend fun KreideModule.nicknameCommand() = ephemeralSlashCommand(::NicknameArg
             newNickname = KreideDatabase.createNameForUser(
                 guildId = guild.id.value.toLong(),
                 userId = event.interaction.user.id.value.toLong(),
-                name = nicknameData?.name ?: arguments.value,
+                name = arguments.value,
                 forcedNumber = nicknameData?.number
             )
         }
