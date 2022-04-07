@@ -10,7 +10,7 @@ object Config : EnvironmentConfig("") {
     }
 
     // Role to give when a user joins the server
-    val JOIN_ROLE_ID: Snowflake? by getEnv { Snowflake(it) }.optional()
+    val JOIN_ROLE_ID: Snowflake by getEnv { Snowflake(it) }
 
     // Welcome Channel ID
     val WELCOME_CHANNEL_ID: Snowflake? by getEnv { Snowflake(it) }.optional()

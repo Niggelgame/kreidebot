@@ -5,9 +5,9 @@ import com.kotlindiscord.kord.extensions.commands.converters.impl.optionalGuild
 import com.kotlindiscord.kord.extensions.commands.converters.impl.string
 import com.kotlindiscord.kord.extensions.extensions.ephemeralSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
+import com.kotlindiscord.kord.extensions.utils.hasRole
 import dev.kord.core.behavior.edit
 import dev.kord.core.entity.channel.TextChannel
-import dev.niggelgame.kreidebot.KreideDatabase.updateNameForUserOrCreate
 import dev.schlaubi.mikbot.plugin.api.util.embed
 
 
@@ -38,18 +38,39 @@ suspend fun KreideModule.nicknameCommand() = ephemeralSlashCommand(::NicknameArg
             return@action
         }
 
-        val newNickname = updateNameForUserOrCreate(
+        val member = guild.getMember(event.interaction.user.id)
+
+        if (!member.hasRole(guild.getRole(Config.JOIN_ROLE_ID))) {
+            respond {
+                content =
+                    "Only users with the role ${guild.getRole(Config.JOIN_ROLE_ID).mention} should use this command!"
+            }
+            return@action
+        }
+
+        var newNickname = KreideDatabase.updateNameForUser(
             guildId = guild.id.value.toLong(),
             userId = event.interaction.user.id.value.toLong(),
             name = arguments.value
         )
 
-        guild.getMember(event.interaction.user.id).edit {
+        if (newNickname == null) {
+            // first try parsing the current name and extracting name and number
+            val nicknameData = extractData(member.displayName)
+
+            newNickname = KreideDatabase.createNameForUser(
+                guildId = guild.id.value.toLong(),
+                userId = event.interaction.user.id.value.toLong(),
+                name = nicknameData?.name ?: arguments.value,
+                forcedNumber = nicknameData?.number
+            )
+        }
+
+        member.edit {
             nickname = newNickname
         }
 
         respond {
-
             embeds.add(embed {
                 title = "Nickname set!"
                 description = "Your nickname has been set to `$newNickname`"
@@ -57,3 +78,20 @@ suspend fun KreideModule.nicknameCommand() = ephemeralSlashCommand(::NicknameArg
         }
     }
 }
+
+private fun extractData(name: String): NicknameData? {
+    val regex = Regex("Junkie (\\d+) \\((.*?)\\)")
+
+    regex.find(name)?.let {
+        val (number, realName) = it.destructured
+        val num = number.toIntOrNull() ?: return null
+        return NicknameData(realName, num)
+    }
+    return null
+}
+
+
+data class NicknameData(
+    val name: String,
+    val number: Int
+)

@@ -28,25 +28,25 @@ class KreideModule : Extension() {
                 if (event.member.isBot) return@action
 
                 // Add role
-                if (Config.JOIN_ROLE_ID != null) {
-                    // if (event.guild.botHasPermissions(Permission.ManageRoles)) {
-                    try {
-                        event.member.addRole(Config.JOIN_ROLE_ID!!, "Join role")
-                    } catch (e: RestRequestException) {
-                        event.member.getDmChannel()
-                            .createMessage("I don't have enough rights to give you your role. I'm sorry.")
-                    }
-                    /* } else {
-                        event.member.getDmChannel()
-                            .createMessage("I don't have enough rights to give you your role. I'm sorry.")
-                    }*/
+
+                // if (event.guild.botHasPermissions(Permission.ManageRoles)) {
+                try {
+                    event.member.addRole(Config.JOIN_ROLE_ID!!, "Join role")
+                } catch (e: RestRequestException) {
+                    event.member.getDmChannel()
+                        .createMessage("I don't have enough rights to give you your role. I'm sorry.")
                 }
+                /* } else {
+                    event.member.getDmChannel()
+                        .createMessage("I don't have enough rights to give you your role. I'm sorry.")
+                }*/
+
 
                 // Set nickname
                 val userId = event.member.id.value.toLong()
                 val newNickname =
                     KreideDatabase.getNameForUser(userId, guildId = event.guildId.value.toLong()) ?: runBlocking {
-                        KreideDatabase.createNameForUser(userId, event.guildId.value.toLong(), event.member.displayName)
+                        KreideDatabase.createNameForUser(userId, event.guildId.value.toLong(), event.member.displayName, forcedNumber = null)
                     }
 
                 event.member.edit {
