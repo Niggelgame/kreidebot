@@ -8,6 +8,8 @@ import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.utils.hasRole
 import dev.kord.core.behavior.edit
 import dev.kord.core.entity.channel.TextChannel
+import dev.kord.rest.json.JsonErrorCode
+import dev.kord.rest.request.RestRequestException
 import dev.schlaubi.mikbot.plugin.api.util.embed
 
 
@@ -65,9 +67,21 @@ suspend fun KreideModule.nicknameCommand() = ephemeralSlashCommand(::NicknameArg
                 forcedNumber = nicknameData?.number
             )
         }
-
-        member.edit {
-            nickname = newNickname
+        try {
+            member.edit {
+                nickname = newNickname
+            }
+        } catch (e: RestRequestException) {
+            if (e.error?.code == JsonErrorCode.PermissionLack) {
+                respond {
+                    content = "I don't have the permission to set the nickname!"
+                }
+            } else if (e.error?.code == JsonErrorCode.InvalidFormBody) {
+                respond {
+                    content = "The nickname is too long!"
+                }
+            }
+            throw e
         }
 
         respond {
