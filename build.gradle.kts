@@ -65,3 +65,13 @@ kotlin {
         (this as DefaultToolchainSpec).languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
+
+pluginPublishing {
+    // The address your repository is hosted it
+    // if you use Git LFS and GitHub Pages use https://github.com/owner/repo/raw/branch
+    repositoryUrl.set("https://github.com/niggelgame/kreidebot/raw/main ")
+    // The directory the generated repository should be in
+    targetDirectory.set(rootProject.file("ci-repo").toPath())
+    // The URL of the project
+    projectUrl.set("https://github.com/niggelgame/kreidebot")
+}
