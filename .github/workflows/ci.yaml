@@ -18,7 +18,7 @@ jobs:
           java-version: '17'
       - uses: gradle/gradle-build-action@v1
         with:
-          arguments: classes ktlintCheck
+          arguments: classes
   update_repository:
     name: Update repository
     runs-on: ubuntu-20.04
