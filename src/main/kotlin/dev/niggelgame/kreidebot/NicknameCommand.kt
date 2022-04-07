@@ -76,10 +76,12 @@ suspend fun KreideModule.nicknameCommand() = ephemeralSlashCommand(::NicknameArg
                 respond {
                     content = "I don't have the permission to set the nickname!"
                 }
+                return@action
             } else if (e.error?.code == JsonErrorCode.InvalidFormBody) {
                 respond {
                     content = "The nickname is too long!"
                 }
+                return@action
             }
             throw e
         }
