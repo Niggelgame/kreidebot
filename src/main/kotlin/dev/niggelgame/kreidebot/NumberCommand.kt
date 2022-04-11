@@ -27,6 +27,10 @@ class NumberArgument : Arguments() {
  * The command to set a users Junkie number
  */
 suspend fun KreideModule.numberCommand() = ephemeralSlashCommand(::NumberArgument) {
+    name = "nicknumber"
+    description = "Set the number of a nickname"
+
+
     action {
         val guild = arguments.user.guild
 

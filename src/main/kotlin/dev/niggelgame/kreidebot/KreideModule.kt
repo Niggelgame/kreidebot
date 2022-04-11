@@ -21,6 +21,7 @@ class KreideModule : Extension() {
         }
 
         nicknameCommand()
+        numberCommand()
 
         event<MemberJoinEvent> {
             action {
