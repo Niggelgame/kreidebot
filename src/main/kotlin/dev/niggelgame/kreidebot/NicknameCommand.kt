@@ -10,6 +10,7 @@ import dev.kord.core.behavior.edit
 import dev.kord.core.entity.channel.TextChannel
 import dev.kord.rest.json.JsonErrorCode
 import dev.kord.rest.request.RestRequestException
+import dev.niggelgame.kreidebot.utils.extractData
 import dev.schlaubi.mikbot.plugin.api.util.embed
 
 
