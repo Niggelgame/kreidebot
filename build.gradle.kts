@@ -12,7 +12,7 @@ plugins {
 val experimentalAnnotations =
     listOf("kotlin.RequiresOptIn", "kotlin.time.ExperimentalTime", "kotlin.contracts.ExperimentalContracts")
 
-version = "1.0.6"
+version = "1.0.7"
 
 repositories {
     mavenCentral()
@@ -26,10 +26,10 @@ repositories {
 dependencies {
     // this one is included in the bot itself, therefore we make it compileOnly
     compileOnly(kotlin("stdlib-jdk8"))
-    compileOnly("dev.schlaubi", "mikbot-api", "2.5.0-SNAPSHOT")
+    compileOnly("dev.schlaubi", "mikbot-api", "3.0.0-SNAPSHOT")
 
 
-    ksp("dev.schlaubi", "mikbot-plugin-processor", "1.1.1")
+    ksp("dev.schlaubi", "mikbot-plugin-processor", "2.0.0")
 
     // implementation("io.ktor", "ktor-serialization", "1.6.2")
 }
