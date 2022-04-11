@@ -41,7 +41,6 @@ class KreideModule : Extension() {
                         .createMessage("I don't have enough rights to give you your role. I'm sorry.")
                 }*/
 
-
                 // Set nickname
                 val userId = event.member.id.value.toLong()
                 val newNickname =

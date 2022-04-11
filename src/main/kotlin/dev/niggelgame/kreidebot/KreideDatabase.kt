@@ -11,6 +11,14 @@ import org.litote.kmongo.setValue
 object KreideDatabase : KoinComponent {
     private val nameDistributor = database.getCollection<NameDistribution>("name_distributor")
 
+    private fun ensureNameLength(name: String, number: Int) : String {
+        val formattedName = formatName(name, number)
+        if (formattedName.length > 32) {
+            return name.substring(0, name.length - (formattedName.length - 32))
+        }
+        return name
+    }
+
     suspend fun getNameForUser(userId: Long, guildId: Long): String? {
         val nameDistribution =
             nameDistributor.findOne(and(NameDistribution::userId eq userId, NameDistribution::guildId eq guildId))
@@ -20,6 +28,16 @@ object KreideDatabase : KoinComponent {
         return null
     }
 
+    /**
+     * Insert a user with name into the database
+     *
+     * To make sure, name fits discord constraints, we check if the name is longer than 32 chars and shorten it if it is
+     *
+     * @param userId The discord user id
+     * @param guildId The discord guild id
+     * @param name The name of the user
+     * @param forcedNumber The number of the user forced to set. If null, will take the next available number
+     */
     suspend fun createNameForUser(userId: Long, guildId: Long, name: String, forcedNumber: Int?): String {
         val lastNumber = forcedNumber
             ?: (nameDistributor.find(NameDistribution::guildId eq guildId).descendingSort(NameDistribution::number)
@@ -27,9 +45,11 @@ object KreideDatabase : KoinComponent {
                 .first()?.number?.let { it + 1 }
                 ?: Config.NAME_COUNT_START_VALUE)
 
-        nameDistributor.insertOne(NameDistribution(userId, lastNumber + 1, name, guildId))
+        val shortenedName = ensureNameLength(name, lastNumber)
 
-        return formatName(name, lastNumber + 1)
+        nameDistributor.insertOne(NameDistribution(userId, lastNumber + 1, shortenedName, guildId))
+
+        return formatName(shortenedName, lastNumber + 1)
     }
 
     suspend fun updateNameForUser(userId: Long, guildId: Long, name: String): String? {
