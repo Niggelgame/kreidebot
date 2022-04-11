@@ -13,8 +13,8 @@ import dev.niggelgame.kreidebot.utils.extractData
 
 class NumberArgument : Arguments() {
     val value by int {
-        name = "nickname"
-        description = "The nickname you want to set"
+        name = "number"
+        description = "The number you want to set"
     }
 
     val user by member {
