@@ -89,21 +89,10 @@ suspend fun KreideModule.nicknameCommand() = ephemeralSlashCommand(::NicknameArg
         respond {
             embeds.add(embed {
                 title = "Nickname set!"
-                description = "Your nickname has been set to `$newNickname`"
+                description = "Your nickname has been set to `$newNickname`. \nYou can set a new nickname using `/nickname <nickname>`"
             })
         }
     }
-}
-
-private fun extractData(name: String): NicknameData? {
-    val regex = Regex("Junkie (\\d+) \\((.*?)\\)")
-
-    regex.find(name)?.let {
-        val (number, realName) = it.destructured
-        val num = number.toIntOrNull() ?: return null
-        return NicknameData(realName, num)
-    }
-    return null
 }
 
 

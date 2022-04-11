@@ -61,6 +61,15 @@ object KreideDatabase : KoinComponent {
         return getNameForUser(userId, guildId)
     }
 
+    suspend fun updateNumberForUser(userId: Long, guildId: Long, number: Int): String? {
+        nameDistributor.updateOne(
+            and(NameDistribution::userId eq userId, NameDistribution::guildId eq guildId),
+            setValue(NameDistribution::number, number)
+        )
+
+        return getNameForUser(userId, guildId)
+    }
+
     /*suspend fun updateNameForUserOrCreate(userId: Long, guildId: Long, name: String) : String {
         val nameDistribution =
             nameDistributor.findOne(and(NameDistribution::userId eq userId, NameDistribution::guildId eq guildId))
