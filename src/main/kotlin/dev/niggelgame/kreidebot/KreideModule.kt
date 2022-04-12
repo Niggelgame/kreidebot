@@ -1,9 +1,11 @@
 package dev.niggelgame.kreidebot
 
+import com.kotlindiscord.kord.extensions.annotations.DoNotChain
 import com.kotlindiscord.kord.extensions.checks.anyGuild
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.event
 import com.kotlindiscord.kord.extensions.extensions.slashCommandCheck
+import com.kotlindiscord.kord.extensions.utils.setNickname
 import dev.kord.core.behavior.channel.createMessage
 import dev.kord.core.behavior.edit
 import dev.kord.core.entity.Member
@@ -37,6 +39,7 @@ class KreideModule : Extension() {
     }
 }
 
+@OptIn(DoNotChain::class)
 suspend fun Member.makeJoin() {
     // Add role
     // if (event.guild.botHasPermissions(Permission.ManageRoles)) {
@@ -58,9 +61,7 @@ suspend fun Member.makeJoin() {
             KreideDatabase.createNameForUser(userId, guildId.value.toLong(), displayName, forcedNumber = null)
         }
 
-    edit {
-        nickname = newNickname
-    }
+    setNickname(newNickname)
 
     val welcomeMessage = embed {
         title = "Welcome $displayName to the cartel server."

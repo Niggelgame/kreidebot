@@ -1,5 +1,6 @@
 package dev.niggelgame.kreidebot
 
+import com.kotlindiscord.kord.extensions.annotations.DoNotChain
 import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.converters.impl.int
 import com.kotlindiscord.kord.extensions.commands.converters.impl.member
@@ -7,6 +8,7 @@ import com.kotlindiscord.kord.extensions.extensions.ephemeralSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.utils.hasPermission
 import com.kotlindiscord.kord.extensions.utils.hasRole
+import com.kotlindiscord.kord.extensions.utils.setNickname
 import dev.kord.common.entity.Permission
 import dev.kord.core.behavior.edit
 import dev.niggelgame.kreidebot.utils.extractData
@@ -26,6 +28,7 @@ class NumberArgument : Arguments() {
 /**
  * The command to set a users Junkie number
  */
+@OptIn(DoNotChain::class)
 suspend fun KreideModule.numberCommand() = ephemeralSlashCommand(::NumberArgument) {
     name = "nicknumber"
     description = "Set the number of a nickname"
@@ -60,9 +63,7 @@ suspend fun KreideModule.numberCommand() = ephemeralSlashCommand(::NumberArgumen
             )
         }
 
-        arguments.user.edit {
-            nickname = newName
-        }
+        arguments.user.setNickname(newName)
 
         respond { content = "The nickname of ${arguments.user.mention} has been set to $newName" }
     }

@@ -6,6 +6,7 @@ import com.kotlindiscord.kord.extensions.commands.converters.impl.string
 import com.kotlindiscord.kord.extensions.extensions.ephemeralSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.utils.hasRole
+import com.kotlindiscord.kord.extensions.utils.setNickname
 import dev.kord.core.behavior.edit
 import dev.kord.core.entity.channel.TextChannel
 import dev.kord.rest.json.JsonErrorCode
@@ -69,9 +70,7 @@ suspend fun KreideModule.nicknameCommand() = ephemeralSlashCommand(::NicknameArg
             )
         }
         try {
-            member.edit {
-                nickname = newNickname
-            }
+            member.setNickname(newNickname)
         } catch (e: RestRequestException) {
             if (e.error?.code == JsonErrorCode.PermissionLack) {
                 respond {
