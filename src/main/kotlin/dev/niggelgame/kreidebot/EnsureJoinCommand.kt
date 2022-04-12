@@ -19,7 +19,7 @@ class EnsureJoinArguments : Arguments() {
  * The command to set a users Junkie number
  */
 suspend fun KreideModule.ensureJoinCommand() = ephemeralSlashCommand(::EnsureJoinArguments) {
-    name = "ensureJoin"
+    name = "ensurejoin"
     description = "Re-gives the join role and sets nickname"
 
 
