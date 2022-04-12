@@ -4,7 +4,6 @@ import com.kotlindiscord.kord.extensions.checks.anyGuild
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.event
 import com.kotlindiscord.kord.extensions.extensions.slashCommandCheck
-import dev.kord.common.entity.Snowflake
 import dev.kord.core.behavior.channel.createMessage
 import dev.kord.core.behavior.edit
 import dev.kord.core.entity.Member
@@ -65,7 +64,7 @@ suspend fun Member.makeJoin() {
     val welcomeMessage = embed {
         title = "Welcome $displayName to the cartel server."
         description = "Your name was changed according to our guidelines.\n" +
-                "Please keep the layout the same. You may change the name in the parenthesis"
+                "Please keep the layout the same. You may change the name in the parenthesis by using `/nicknumber`"
     }
 
     // Send welcome message
