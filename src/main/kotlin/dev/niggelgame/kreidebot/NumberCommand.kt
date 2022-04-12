@@ -63,6 +63,7 @@ suspend fun KreideModule.numberCommand() = ephemeralSlashCommand(::NumberArgumen
         arguments.user.edit {
             nickname = newName
         }
+
         respond { content = "The nickname of ${arguments.user.mention} has been set to $newName" }
     }
 }

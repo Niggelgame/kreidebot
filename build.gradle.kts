@@ -26,7 +26,7 @@ repositories {
 dependencies {
     // this one is included in the bot itself, therefore we make it compileOnly
     compileOnly(kotlin("stdlib-jdk8"))
-    compileOnly("dev.schlaubi", "mikbot-api", "3.0.0-SNAPSHOT")
+    compileOnly("dev.schlaubi", "mikbot-api", "2.5.0-SNAPSHOT")
 
 
     ksp("dev.schlaubi", "mikbot-plugin-processor", "2.0.0")
