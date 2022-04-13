@@ -47,9 +47,9 @@ object KreideDatabase : KoinComponent {
 
         val shortenedName = ensureNameLength(name, lastNumber)
 
-        nameDistributor.insertOne(NameDistribution(userId, lastNumber + 1, shortenedName, guildId))
+        nameDistributor.insertOne(NameDistribution(userId, lastNumber, shortenedName, guildId))
 
-        return formatName(shortenedName, lastNumber + 1)
+        return formatName(shortenedName, lastNumber)
     }
 
     suspend fun updateNameForUser(userId: Long, guildId: Long, name: String): String? {
