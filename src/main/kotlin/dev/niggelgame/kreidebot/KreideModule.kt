@@ -1,13 +1,10 @@
 package dev.niggelgame.kreidebot
 
 import com.kotlindiscord.kord.extensions.annotations.DoNotChain
-import com.kotlindiscord.kord.extensions.checks.anyGuild
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.event
-import com.kotlindiscord.kord.extensions.extensions.slashCommandCheck
 import com.kotlindiscord.kord.extensions.utils.setNickname
 import dev.kord.core.behavior.channel.createMessage
-import dev.kord.core.behavior.edit
 import dev.kord.core.entity.Member
 import dev.kord.core.entity.channel.TextChannel
 import dev.kord.core.event.guild.MemberJoinEvent
@@ -19,10 +16,6 @@ class KreideModule : Extension() {
     override val name = "Kreide"
 
     override suspend fun setup() {
-        slashCommandCheck {
-            anyGuild()
-        }
-
         nicknameCommand()
         numberCommand()
         ensureJoinCommand()
@@ -66,7 +59,7 @@ suspend fun Member.makeJoin() {
     val welcomeMessage = embed {
         title = "Welcome $displayName to the cartel server."
         description = "Your name was changed according to our guidelines.\n" +
-                "Please keep the layout the same. You may change the name in the parenthesis by using `/nicknumber`"
+                "Please change the name in parentheses to your real name using `/nickname <name>`."
     }
 
     // Send welcome message

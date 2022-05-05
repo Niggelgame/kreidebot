@@ -46,6 +46,6 @@ suspend fun KreideModule.ensureJoinCommand() = ephemeralSlashCommand(::EnsureJoi
 
         arguments.user.makeJoin()
 
-        respond {}
+        // respond {}
     }
 }
