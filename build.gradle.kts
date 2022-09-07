@@ -2,17 +2,17 @@ import org.gradle.jvm.toolchain.internal.DefaultToolchainSpec
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("com.google.devtools.ksp") version "1.6.20-1.0.4" // used for plugin-processor
-    kotlin("jvm") version "1.6.10"
+    id("com.google.devtools.ksp") version "1.7.10-1.0.6" // used for plugin-processor
+    kotlin("jvm") version "1.7.10"
     // used for json-serialization and deserialization
-    kotlin("plugin.serialization") version "1.6.10"
-    id("dev.schlaubi.mikbot.gradle-plugin") version "1.7.0"
+    kotlin("plugin.serialization") version "1.7.10"
+    id("dev.schlaubi.mikbot.gradle-plugin") version "2.6.1"
 }
 
 val experimentalAnnotations =
     listOf("kotlin.RequiresOptIn", "kotlin.time.ExperimentalTime", "kotlin.contracts.ExperimentalContracts")
 
-version = "1.0.13"
+version = "1.0.14"
 
 repositories {
     mavenCentral()
@@ -26,10 +26,9 @@ repositories {
 dependencies {
     // this one is included in the bot itself, therefore we make it compileOnly
     compileOnly(kotlin("stdlib-jdk8"))
-    compileOnly("dev.schlaubi", "mikbot-api", "2.5.0-SNAPSHOT")
+    compileOnly("dev.schlaubi", "mikbot-api", "3.9.0-SNAPSHOT")
 
-
-    ksp("dev.schlaubi", "mikbot-plugin-processor", "2.0.0")
+    ksp("dev.schlaubi", "mikbot-plugin-processor", "2.3.0")
 
     // implementation("io.ktor", "ktor-serialization", "1.6.2")
 }
@@ -50,19 +49,19 @@ tasks {
 
     withType<KotlinCompile> {
         kotlinOptions {
-            jvmTarget = "17"
+            jvmTarget = "18"
             freeCompilerArgs = freeCompilerArgs + experimentalAnnotations.map { "-Xopt-in=$it" }
         }
     }
 
     installBot {
-        botVersion.set("2.5.0-SNAPSHOT")
+        botVersion.set("3.9.0-SNAPSHOT")
     }
 }
 
 kotlin {
     jvmToolchain {
-        (this as DefaultToolchainSpec).languageVersion.set(JavaLanguageVersion.of(17))
+        (this as DefaultToolchainSpec).languageVersion.set(JavaLanguageVersion.of(18))
     }
 }
 
