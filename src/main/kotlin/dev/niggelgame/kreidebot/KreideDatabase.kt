@@ -1,14 +1,14 @@
 package dev.niggelgame.kreidebot
 
+import com.kotlindiscord.kord.extensions.koin.KordExKoinComponent
 import dev.niggelgame.kreidebot.utils.formatName
 import dev.schlaubi.mikbot.plugin.api.io.getCollection
 import dev.schlaubi.mikbot.plugin.api.util.database
-import org.koin.core.component.KoinComponent
 import org.litote.kmongo.and
 import org.litote.kmongo.eq
 import org.litote.kmongo.setValue
 
-object KreideDatabase : KoinComponent {
+object KreideDatabase : KordExKoinComponent {
     private val nameDistributor = database.getCollection<NameDistribution>("name_distributor")
 
     private fun ensureNameLength(name: String, number: Int) : String {
@@ -42,7 +42,7 @@ object KreideDatabase : KoinComponent {
         val lastNumber = forcedNumber
             ?: (nameDistributor.find(NameDistribution::guildId eq guildId).descendingSort(NameDistribution::number)
                 .limit(1)
-                .first()?.number?.let { it + 1 }
+                .first()?.number?.let { it -> it + 1 }
                 ?: Config.NAME_COUNT_START_VALUE)
 
         val shortenedName = ensureNameLength(name, lastNumber)
